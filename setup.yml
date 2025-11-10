@@ -1,0 +1,5 @@
+- hosts: all
+  vars_files:
+    - ansible-vars/main.yml
+  roles:
+    - ansible-on-start

@@ -12,15 +12,6 @@
     name: web
     state: present
 
-- name: Get UID of local_user
-  ansible.builtin.command: id -u {{ local_user }}
-  register: local_user_id
-  changed_when: false
-
-- name: Set fact for local_user_uid
-  ansible.builtin.set_fact:
-    local_user_uid: "{{ local_user_id.stdout }}"
-
 - name: Ensure podman volumes/directories exist
   ansible.builtin.file:
     path: "{{ item }}"
@@ -30,13 +21,13 @@
 
 - name: Adjust ownership inside Podman namespace for directories
   ansible.builtin.command: >
-    podman unshare chown -R {{ local_user_uid }}:{{ local_user_uid }} {{ item }}
+    podman unshare chown -R {{ local_user_id }}:{{ local_user_id }} {{ item }}
   loop: "{{ podman_shared_volumes }}"
   become: no
 
 - name: Set podman_sock path dynamically
   ansible.builtin.set_fact:
-    podman_sock: "/run/user/{{ local_user_uid }}/podman/podman.sock"
+    podman_sock: "/run/user/{{ local_user_id }}/podman/podman.sock"
 
 - name: Check if podman.sock exists
   ansible.builtin.stat:
@@ -46,7 +37,6 @@
 
 - name: Adjust ownership for podman.sock inside Podman namespace
   ansible.builtin.command: >
-    podman unshare chown {{ local_user_uid }}:{{ local_user_uid }} {{ podman_sock }}
+    podman unshare chown {{ local_user_id }}:{{ local_user_id }} {{ podman_sock }}
   become: no
   when: podman_sock_stat.stat.exists
-

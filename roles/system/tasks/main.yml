@@ -11,3 +11,4 @@
   become: yes
   args:
     creates: "/var/lib/systemd/linger/{{ local_user }}"
+

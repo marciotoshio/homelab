@@ -3,7 +3,7 @@ services:
   jellyfin:
     container_name: jellyfin
     image: jellyfin/jellyfin
-    restart: 'unless-stopped'    
+    restart: 'unless-stopped'
     user: "1000:1000"
     ports:
       - 8096:8096/tcp
@@ -28,7 +28,7 @@ services:
     # Optional - may be necessary for docker healthcheck to pass if running in host network mode
     # extra_hosts:
     #   - 'host.docker.internal:host-gateway'
-  
+
   homeassistant:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
@@ -42,7 +42,7 @@ services:
     cap_add:
       - NET_ADMIN
       - NET_RAW
-  
+
   traefik:
     container_name: traefik
     image: traefik:v3.6
@@ -61,7 +61,7 @@ services:
       - NET_BIND_SERVICE
     networks:
       - web
-  
+
   tosh_io:
     container_name: tosh_io
     image: tosh_io:latest
@@ -82,7 +82,7 @@ services:
       - "dev.dozzle.group=webapps"
     networks:
       - web
-  
+
   price_history:
     container_name: price_history
     image: price_history:latest
@@ -104,7 +104,7 @@ services:
     networks:
       - web
     env_file:
-      - ../price_history/.env 
+      - ../price_history/.env
 
   dozzle:
     container_name: dozzle
@@ -122,4 +122,3 @@ services:
 networks:
   web:
     external: true
-     
