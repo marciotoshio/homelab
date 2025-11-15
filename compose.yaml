@@ -1,5 +1,15 @@
 
 services:
+  registry:
+    container_name: registry
+    image: distribution/distribution:edge
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+    volumes:
+      - /mnt/homelab-data/registry/data:/var/lib/registry:Z
+      - ./registry/config.yml:/etc/distribution/config.yml:Z
+
   jellyfin:
     container_name: jellyfin
     image: jellyfin/jellyfin
@@ -10,12 +20,13 @@ services:
       - 7359:7359/udp
     volumes:
       - ./jellyfin/config:/config
-      - /mnt/media/jellyfin/cache:/cache
+      - /mnt/homelab-data/jellyfin/cache:/cache
+      - /mnt/homelab-data/jellyfin/metadata:/metadata
       - type: bind
-        source: /mnt/media/movies
+        source: /mnt/homelab-data/movies
         target: /media/movies
       - type: bind
-        source: /mnt/media/shows
+        source: /mnt/homelab-data/shows
         target: /media/shows
       # Optional - extra fonts to be used during transcoding with subtitle burn-in
       # - type: bind
@@ -85,7 +96,7 @@ services:
 
   price_history:
     container_name: price_history
-    image: price_history:latest
+    image: homelab:5000/price_history:latest
     restart: unless-stopped
     build:
       context: ../price_history

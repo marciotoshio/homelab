@@ -40,3 +40,11 @@
     podman unshare chown {{ local_user_id }}:{{ local_user_id }} {{ podman_sock }}
   become: no
   when: podman_sock_stat.stat.exists
+
+- name: Allow insecure access on localhost registry for podman
+  ansible.builtin.copy:
+    src: "registries.conf"
+    dest: "/home/{{ local_user }}/.config/containers/registries.conf"
+    owner: "{{ local_user }}"
+    group: "{{ local_user }}"
+    mode: '0644'

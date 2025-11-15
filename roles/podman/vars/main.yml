@@ -1,4 +1,5 @@
 podman_shared_volumes:
+  - "{{ playbook_dir }}/registry"
   - "{{ playbook_dir }}/homeassistant/config"
   - "{{ playbook_dir }}/traefik/letsencrypt"
   - "{{ playbook_dir }}/db/tosh.io"
