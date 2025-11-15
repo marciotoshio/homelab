@@ -36,6 +36,9 @@ secrets.yaml
 *.backup
 .backups/
 
+# --- Ansible files ---
+.ansible/
+
 # --- Home Assistant files ---
 .cache/
 .cloud/

@@ -19,12 +19,6 @@
     mode: '0755'
   loop: "{{ podman_shared_volumes }}"
 
-- name: Adjust ownership inside Podman namespace for directories
-  ansible.builtin.command: >
-    podman unshare chown -R {{ local_user_id }}:{{ local_user_id }} {{ item }}
-  loop: "{{ podman_shared_volumes }}"
-  become: no
-
 - name: Set podman_sock path dynamically
   ansible.builtin.set_fact:
     podman_sock: "/run/user/{{ local_user_id }}/podman/podman.sock"
@@ -34,12 +28,6 @@
     path: "{{ podman_sock }}"
   register: podman_sock_stat
   check_mode: no
-
-- name: Adjust ownership for podman.sock inside Podman namespace
-  ansible.builtin.command: >
-    podman unshare chown {{ local_user_id }}:{{ local_user_id }} {{ podman_sock }}
-  become: no
-  when: podman_sock_stat.stat.exists
 
 - name: Allow insecure access on localhost registry for podman
   ansible.builtin.copy:
