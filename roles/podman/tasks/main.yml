@@ -12,6 +12,12 @@
     name: web
     state: present
 
+- name: Ensure podman storage directory exists
+  ansible.builtin.file:
+    path: "/mnt/homelab-data/podman/storage"
+    state: directory
+    mode: '0755'
+
 - name: Ensure podman volumes/directories exist
   ansible.builtin.file:
     path: "{{ item }}"
@@ -28,6 +34,20 @@
     path: "{{ podman_sock }}"
   register: podman_sock_stat
   check_mode: no
+
+- name: Fix permissions on podman.sock
+  ansible.builtin.command:
+    cmd: "podman unshare chown {{ local_user_id }}:{{ local_user_id }} -R {{ podman_sock }}"
+  when: podman_sock_stat.stat.exists
+  changed_when: false
+
+- name: Ensure storage.conf is in place
+  ansible.builtin.copy:
+    src: "storage.conf"
+    dest: "/home/{{ local_user }}/.config/containers/storage.conf"
+    owner: "{{ local_user }}"
+    group: "{{ local_user }}"
+    mode: '0644'
 
 - name: Allow insecure access on localhost registry for podman
   ansible.builtin.copy:

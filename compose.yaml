@@ -128,6 +128,14 @@ services:
       - DOZZLE_ENABLE_ACTIONS=true
       - DOZZLE_ENABLE_SHELL=true
 
+  ollama:
+    container_name: ollama
+    image: ollama/ollama
+    restart: unless-stopped
+    user: "1000:1000"
+    ports:
+      - 11434:11434
+
 networks:
   web:
     external: true
