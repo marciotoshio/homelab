@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+set -a
+source /home/toshio/projects/homelab/ip-sync/.env || true
+set +a
+
 # === CONFIGURATION ===
 DOMAIN="tosh.io"
 RECORD_NAME="@"

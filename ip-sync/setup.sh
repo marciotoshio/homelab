@@ -4,7 +4,7 @@ set -euo pipefail
 # === CONFIGURATION ===
 LAST_IP_FILE="last-ip"
 SCRIPT_PATH="/usr/local/bin/sync-ip.sh"
-CRON_INTERVAL="0 */6 * * *" # Every 6 hours
+CRON_INTERVAL="10 * * * *" # Every 10 minutes
 LOG_FILE="/var/log/sync-ip.log"
 
 
