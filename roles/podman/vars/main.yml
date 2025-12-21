@@ -70,7 +70,7 @@ podman_quadlets:
 
   - name: tosh_io
     container_name: tosh_io
-    image: homelab:5000/tosh.io:latest
+    image: homelab.local:5000/tosh.io:latest
     network: web
     expose:
       - "9292"
