@@ -7,6 +7,17 @@
     reload: yes
   become: yes
 
+- name: Disable all sleep and suspend targets
+  become: yes
+  systemd:
+    name: "{{ item }}"
+    masked: yes
+  loop:
+    - sleep.target
+    - suspend.target
+    - hibernate.target
+    - hybrid-sleep.target
+
 - name: Enable linger for the podman user
   ansible.builtin.command: "loginctl enable-linger {{ local_user }}"
   become: yes
