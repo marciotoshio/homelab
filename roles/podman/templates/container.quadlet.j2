@@ -10,6 +10,8 @@ ContainerName={{ item.container_name }}
 {% endif %}
 {% if item.exec is defined %}
 Exec={{ item.exec }}
+{% elif item.command is defined %}
+Exec={{ item.command }}
 {% endif %}
 {% if item.ports is defined %}
 {% for port in item.ports %}
