@@ -6,13 +6,14 @@
     state: present
 
 - name: Create NFS share directory
+  become: true
   file:
     path: "{{ item }}"
     state: directory
     owner: "{{ local_user }}"
     group: "{{ local_user }}"
     mode: '0755'
-  loop: "{{ nfs_share_paths }}" 
+  loop: "{{ nfs_share_paths }}"
 
 - name: Configure NFS exports
   become: true
@@ -23,6 +24,7 @@
   loop: "{{ nfs_share_paths }}"
 
 - name: Enable and restart NFS server
+  become: true
   service:
     name: nfs-server
     state: restarted

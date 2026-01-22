@@ -7,14 +7,28 @@
     state: started
   register: podman_socket_result
 
-- name: Ensure podman network 'web' exists
-  containers.podman.podman_network:
-    name: web
-    state: present
+- name: Ensure Quadlet directory exists
+  ansible.builtin.file:
+    path: "/home/{{ local_user }}/.config/containers/systemd"
+    state: directory
+    owner: "{{ local_user }}"
+    group: "{{ local_user }}"
+    mode: '0755'
+
+- name: Ensure podman network 'web' exists (via Quadlet)
+  ansible.builtin.copy:
+    dest: "/home/{{ local_user }}/.config/containers/systemd/web.network"
+    content: |
+      [Network]
+      NetworkName=web
+    owner: "{{ local_user }}"
+    group: "{{ local_user }}"
+    mode: '0644'
+  register: web_network_result
 
 - name: Ensure podman storage directory exists
   ansible.builtin.file:
-    path: "/mnt/homelab-data/podman/storage"
+    path: "{{ homelab_data_dir }}/podman/storage"
     state: directory
     mode: '0755'
 
@@ -57,14 +71,6 @@
     group: "{{ local_user }}"
     mode: '0644'
 
-- name: Ensure Quadlet directory exists
-  ansible.builtin.file:
-    path: "/home/{{ local_user }}/.config/containers/systemd"
-    state: directory
-    owner: "{{ local_user }}"
-    group: "{{ local_user }}"
-    mode: '0755'
-
 - name: Create Quadlet container files
   ansible.builtin.template:
     src: "container.quadlet.j2"
@@ -79,7 +85,7 @@
   ansible.builtin.systemd:
     daemon_reload: true
     scope: user
-  when: quadlet_files_result.changed
+  when: quadlet_files_result.changed or web_network_result.changed
 
 - name: Start and enable Quadlet services
   ansible.builtin.systemd:

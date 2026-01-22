@@ -1,6 +1,6 @@
 - name: Ensure Traefik base directory exists
   ansible.builtin.file:
-    path: /mnt/homelab-data/traefik
+    path: "{{ homelab_data_dir }}/traefik"
     state: directory
     owner: "{{ local_user }}"
     group: "{{ local_user }}"
@@ -9,7 +9,7 @@
 - name: Sync traefik configuration from repo
   ansible.builtin.copy:
     src: "traefik.yml"
-    dest: "/mnt/homelab-data/traefik/traefik.yml"
+    dest: "{{ homelab_data_dir }}/traefik/traefik.yml"
     owner: "{{ local_user }}"
     group: "{{ local_user }}"
     mode: '0644'

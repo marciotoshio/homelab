@@ -1,4 +1,5 @@
 ---
 local_user: "{{ ansible_env.USER }}"
 local_user_id: "{{ ansible_facts.user_uid }}"
+homelab_data_dir: "/mnt/homelab-data"
 unprivileged_port_start: 53
