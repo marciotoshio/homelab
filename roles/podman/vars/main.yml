@@ -34,7 +34,7 @@ podman_quadlets:
       - "8096:8096/tcp"
       - "7359:7359/udp"
     volumes:
-      - "/mnt/homelab-data/jellyfin/config:/config"
+      - "/mnt/homelab-data/jellyfin/config:/config:z"
       - "/mnt/homelab-data/jellyfin/cache:/cache"
       - "/mnt/homelab-data/jellyfin/metadata:/metadata"
       - "/mnt/homelab-data/movies:/media/movies"
@@ -49,7 +49,7 @@ podman_quadlets:
       - NET_ADMIN
       - NET_RAW
     volumes:
-      - "/mnt/homelab-data/homeassistant/config:/config"
+      - "/mnt/homelab-data/homeassistant/config:/config:z"
       - "/etc/localtime:/etc/localtime:ro"
 
   - name: registry
