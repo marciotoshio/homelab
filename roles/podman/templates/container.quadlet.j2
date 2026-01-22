@@ -33,7 +33,6 @@ Environment={{ env }}
 EnvironmentFile={{ env_file }}
 {% endfor %}
 {% endif %}
-
 {% if item.labels is defined %}
 {% for label in item.labels %}
 Label={{ label }}
@@ -66,13 +65,11 @@ PodmanArgs=--privileged
 DNS={{ dns }}
 {% endfor %}
 {% endif %}
-
 {% if item.cap_add is defined %}
 {% for cap in item.cap_add %}
 AddCapability={{ cap }}
 {% endfor %}
 {% endif %}
-
 
 [Service]
 Restart=always
