@@ -1,15 +1,15 @@
-- name: Ensure Let's Encrypt directory exists
+- name: Ensure Traefik base directory exists
   ansible.builtin.file:
-    path: /home/{{ local_user  }}/projects/homelab/traefik/letsencrypt
+    path: /mnt/homelab-data/traefik
     state: directory
-    owner: 1000
-    group: 1000
-    mode: '0700'
+    owner: "{{ local_user }}"
+    group: "{{ local_user }}"
+    mode: '0755'
 
-- name: Ensure acme.json exists
-  ansible.builtin.file:
-    path: /home/{{ local_user  }}/projects/homelab/traefik/letsencrypt/acme.json
-    state: touch
-    owner: 1000
-    group: 1000
-    mode: '0600'
+- name: Sync traefik configuration from repo
+  ansible.builtin.copy:
+    src: "traefik.yml"
+    dest: "/mnt/homelab-data/traefik/traefik.yml"
+    owner: "{{ local_user }}"
+    group: "{{ local_user }}"
+    mode: '0644'
