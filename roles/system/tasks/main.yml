@@ -24,23 +24,36 @@
   args:
     creates: "/var/lib/systemd/linger/{{ local_user }}"
 
-# - name: Ensure systemd-resolved DNSStubListener is disabled
-#   ansible.builtin.ini_file:
-#     path: /etc/systemd/resolved.conf
-#     section: Resolve
-#     option: DNSStubListener
-#     value: no
-#     no_extra_spaces: yes
-#   notify: Restart systemd-resolved
-#   become: yes
+- name: Ensure systemd-resolved DNSStubListener is disabled
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: '^#?DNSStubListener='
+    line: 'DNSStubListener=no'
+    insertafter: '^\[Resolve\]'
+  notify: Restart systemd-resolved
+  become: yes
 
-# - name: Configure resolv.conf for Pi-hole
-#   ansible.builtin.copy:
-#     dest: /etc/resolv.conf
-#     content: |
-#       nameserver 8.8.8.8
-#       options edns0 trust-ad
-#     owner: root
-#     group: root
-#     mode: '0644'
-#   become: yes
+- name: Ensure systemd-resolved DNSStubListenerExtra is disabled
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: '^#?DNSStubListenerExtra='
+    line: 'DNSStubListenerExtra=no'
+    insertafter: '^DNSStubListener=no'
+  notify: Restart systemd-resolved
+  become: yes
+
+- name: Configure resolv.conf for Pi-hole
+  ansible.builtin.copy:
+    dest: /etc/resolv.conf
+    content: |
+      nameserver 127.0.0.1
+      nameserver 8.8.8.8
+      options edns0 trust-ad
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+
+- name: Flush handlers to restart systemd-resolved
+  meta: flush_handlers
+

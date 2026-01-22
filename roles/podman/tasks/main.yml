@@ -15,6 +15,16 @@
     group: "{{ local_user }}"
     mode: '0755'
 
+- name: Ensure podman data directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ local_user }}"
+    group: "{{ local_user }}"
+    mode: '0755'
+  loop: "{{ podman_data_dirs }}"
+
 - name: Ensure podman network 'web' exists (via Quadlet)
   ansible.builtin.copy:
     dest: "/home/{{ local_user }}/.config/containers/systemd/web.network"
@@ -25,12 +35,6 @@
     group: "{{ local_user }}"
     mode: '0644'
   register: web_network_result
-
-- name: Ensure podman storage directory exists
-  ansible.builtin.file:
-    path: "{{ homelab_data_dir }}/podman/storage"
-    state: directory
-    mode: '0755'
 
 - name: Set podman_sock path dynamically
   ansible.builtin.set_fact:
@@ -49,8 +53,8 @@
   changed_when: false
 
 - name: Ensure storage.conf is in place
-  ansible.builtin.copy:
-    src: "storage.conf"
+  ansible.builtin.template:
+    src: "storage.conf.j2"
     dest: "/home/{{ local_user }}/.config/containers/storage.conf"
     owner: "{{ local_user }}"
     group: "{{ local_user }}"

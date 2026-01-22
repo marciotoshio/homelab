@@ -1,18 +1,34 @@
+podman_data_dirs:
+  - "{{ homelab_data_dir }}/pihole"
+  - "{{ homelab_data_dir }}/jellyfin/config"
+  - "{{ homelab_data_dir }}/jellyfin/cache"
+  - "{{ homelab_data_dir }}/jellyfin/metadata"
+  - "{{ homelab_data_dir }}/movies"
+  - "{{ homelab_data_dir }}/shows"
+  - "{{ homelab_data_dir }}/homeassistant/config"
+  - "{{ homelab_data_dir }}/registry/data"
+  - "{{ homelab_data_dir }}/traefik"
+  - "{{ homelab_data_dir }}/dbs/price_history"
+  - "{{ homelab_data_dir }}/dbs/bingo"
+  - "{{ homelab_data_dir }}/dbs/household-chores"
+  - "{{ homelab_data_dir }}/dbs/tosh.io"
+  - "{{ homelab_data_dir }}/podman/storage"
+
 podman_quadlets:
-  # - name: pihole
-  #   container_name: pihole
-  #   image: pihole/pihole:latest
-  #   ports:
-  #     - "53:53/udp"
-  #     - "53:53/tcp"
-  #     - "8082:80"
-  #   volumes:
-  #     - "{{ homelab_data_dir }}/pihole:/etc/pihole:z"
-  #   environment_files:
-  #     - "{{ playbook_dir }}/environments/pihole.env"
-  #   dns:
-  #     - "8.8.8.8"
-  #     - "8.8.4.4"
+  - name: pihole
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+      - "8082:80"
+    volumes:
+      - "{{ homelab_data_dir }}/pihole:/etc/pihole:z"
+    environment_files:
+      - "{{ playbook_dir }}/environments/pihole.env"
+    dns:
+      - "8.8.8.8"
+      - "8.8.4.4"
 
   - name: cloudflared
     container_name: cloudflared
