@@ -34,7 +34,7 @@ podman_quadlets:
       - "8096:8096/tcp"
       - "7359:7359/udp"
     volumes:
-      - "{{ playbook_dir }}/jellyfin/config:/config"
+      - "/mnt/homelab-data/jellyfin/config:/config"
       - "/mnt/homelab-data/jellyfin/cache:/cache"
       - "/mnt/homelab-data/jellyfin/metadata:/metadata"
       - "/mnt/homelab-data/movies:/media/movies"
