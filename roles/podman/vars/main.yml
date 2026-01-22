@@ -49,7 +49,7 @@ podman_quadlets:
       - NET_ADMIN
       - NET_RAW
     volumes:
-      - "{{ playbook_dir }}/homeassistant/config:/config"
+      - "/mnt/homelab-data/homeassistant/config:/config"
       - "/etc/localtime:/etc/localtime:ro"
 
   - name: registry
