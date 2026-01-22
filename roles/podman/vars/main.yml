@@ -59,7 +59,7 @@ podman_quadlets:
       - "5000:5000"
     volumes:
       - "/mnt/homelab-data/registry/data:/var/lib/registry:Z"
-      - "{{ playbook_dir }}/registry/config.yml:/etc/distribution/config.yml:Z"
+      - "/mnt/homelab-data/registry/config.yml:/etc/distribution/config.yml:Z"
 
   - name: traefik
     container_name: traefik
