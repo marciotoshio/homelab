@@ -1,7 +1,3 @@
-podman_shared_volumes:
-  - "{{ playbook_dir }}/db/tosh.io"
-  - "{{ playbook_dir }}/db/price_history"
-
 podman_quadlets:
   # - name: pihole
   #   container_name: pihole
@@ -91,7 +87,7 @@ podman_quadlets:
     expose:
       - "9292"
     volumes:
-      - "{{ playbook_dir }}/db/tosh.io:/usr/src/app/db:z"
+      - "{{ homelab_data_dir }}/dbs/tosh.io:/usr/src/app/db:z"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.tosh_io.rule=Host(`tosh.io`)"
