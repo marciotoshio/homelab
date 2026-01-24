@@ -42,12 +42,12 @@
   notify: Restart systemd-resolved
   become: yes
 
-- name: Configure resolv.conf for Pi-hole
+- name: Configure resolv.conf for Host (bypass local loop for stability)
   ansible.builtin.copy:
     dest: /etc/resolv.conf
     content: |
-      nameserver 127.0.0.1
       nameserver 8.8.8.8
+      nameserver 8.8.4.4
       options edns0 trust-ad
     owner: root
     group: root
@@ -57,3 +57,10 @@
 - name: Flush handlers to restart systemd-resolved
   meta: flush_handlers
 
+- name: Ensure DNS is allowed through the firewall
+  become: true
+  ansible.posix.firewalld:
+    service: "dns"
+    permanent: yes
+    state: enabled
+    immediate: yes
