@@ -6,6 +6,7 @@ podman_data_dirs:
   - "{{ homelab_data_dir }}/movies"
   - "{{ homelab_data_dir }}/shows"
   - "{{ homelab_data_dir }}/homeassistant/config"
+  - "{{ homelab_data_dir}}/homepage/config"
   - "{{ homelab_data_dir }}/registry/data"
   - "{{ homelab_data_dir }}/traefik"
   - "{{ homelab_data_dir }}/dbs/price_history"
@@ -60,6 +61,21 @@ podman_quadlets:
     volumes:
       - "{{ homelab_data_dir }}/homeassistant/config:/config:z"
       - "/etc/localtime:/etc/localtime:ro"
+
+  - name: homepage
+    container_name: homepage
+    image: ghcr.io/gethomepage/homepage:latest
+    ports:
+      - "8083:3000"
+    volumes:
+      - "{{ homelab_data_dir}}/homepage/config:/app/config:z"
+      - "/run/user/1000/podman/podman.sock:/var/run/docker.sock:z"
+    environment:
+      - PUID=$UID
+      - GUID=$GID
+      - HOMEPAGE_ALLOWED_HOSTS=homelab.local:8083
+    userns: keep-id
+
 
   - name: registry
     container_name: registry
