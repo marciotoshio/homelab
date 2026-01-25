@@ -1,0 +1,71 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+
+- Homepage:
+    - Homepage:
+        href: http://homelab.local:8083/
+        description: Homepage
+        container: homepage
+
+- Network:
+    - Pi-hole:
+        href: http://homelab.local:8082/admin
+        description: DNS Ad-blocker
+        container: pihole
+
+    - Cloudflared:
+        description: Cloudflared
+        container: cloudflared
+
+    - Traefik:
+        href: http://homelab.local:8080
+        description: Reverse Proxy
+        container: traefik
+
+    - Dozzle:
+        href: http://homelab.local:8081
+        description: Container Logs
+        container: dozzle
+
+    - Registry:
+        description: Container Registry
+        container: registry
+
+- Media:
+    - Jellyfin:
+        href: http://homelab.local:8096/
+        description: Media Server
+        container: jellyfin
+
+- Home Assistant:
+    - Home Assistant:
+        href: http://homelab.local:8123/
+        description: Home Automation
+        container: homeassistant
+
+- WebApps:
+    - Tosh.io:
+        href: https://tosh.io
+        description: Tosh.io
+        container: tosh_io
+
+    - Price History:
+        href: https://price-history.tosh.io
+        description: Price History
+        container: price_history
+
+    - YNAB View:
+        href: https://ynab-view.tosh.io
+        description: YNAB View
+        container: ynab_view
+
+    - Bingo:
+        href: https://bingo.tosh.io
+        description: Bingo
+        container: bingo
+
+    - Household Chores:
+        href: https://household-chores.tosh.io
+        description: Household Chores
+        container: household-chores

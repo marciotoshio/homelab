@@ -5,4 +5,5 @@
     - system
     - podman
     - traefik
+    - homepage
     - nfs
