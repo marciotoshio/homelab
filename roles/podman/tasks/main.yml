@@ -25,11 +25,18 @@
     mode: '0755'
   loop: "{{ podman_data_dirs }}"
 
-- name: Ensure podman networks exist
-  containers.podman.podman_network:
-    name: "{{ item }}"
-    state: present
+- name: Ensure podman networks exist (via Quadlet)
+  ansible.builtin.copy:
+    dest: "/home/{{ local_user }}/.config/containers/systemd/{{ item }}.network"
+    content: |
+      [Network]
+      NetworkName={{ item }}
+      DNS=true
+    owner: "{{ local_user }}"
+    group: "{{ local_user }}"
+    mode: '0644'
   loop: "{{ podman_networks }}"
+  register: networks_result
 
 - name: Set podman_sock path dynamically
   ansible.builtin.set_fact:
@@ -80,6 +87,14 @@
     scope: user
   when: quadlet_files_result.changed or networks_result.changed
 
+- name: Start and enable Quadlet network services
+  ansible.builtin.systemd:
+    name: "{{ item }}-network"
+    state: started
+    enabled: true
+    scope: user
+  loop: "{{ podman_networks }}"
+
 - name: Start and enable Quadlet services
   ansible.builtin.systemd:
     name: "{{ item.name }}"
@@ -87,4 +102,4 @@
     enabled: true
     scope: user
   loop: "{{ podman_quadlets | default([]) }}"
-  no_log: true
+

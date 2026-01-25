@@ -1,6 +1,5 @@
 podman_networks:
   - "web"
-  - "internal"
 
 podman_data_dirs:
   - "{{ homelab_data_dir }}/pihole"
@@ -34,13 +33,13 @@ podman_quadlets:
     dns:
       - "8.8.8.8"
       - "8.8.4.4"
-    network: internal
 
   - name: cloudflared
     container_name: cloudflared
     image: cloudflare/cloudflared:latest
     command: tunnel --no-autoupdate run --token {{ lookup('env', 'CLOUDFLARE_TUNNEL_TOKEN') }}
-    network: web
+    networks:
+      - web
 
   - name: jellyfin
     container_name: jellyfin
@@ -58,7 +57,8 @@ podman_quadlets:
   - name: homeassistant
     container_name: homeassistant
     image: ghcr.io/home-assistant/home-assistant:stable
-    network: host
+    networks:
+      - host
     privileged: true
     cap_add:
       - NET_ADMIN
@@ -80,7 +80,6 @@ podman_quadlets:
       - PUID={{ local_user_id }}
       - PGID={{ local_user_id }}
       - HOMEPAGE_ALLOWED_HOSTS=homelab.local:8083
-    network: internal
 
   - name: registry
     container_name: registry
@@ -95,7 +94,8 @@ podman_quadlets:
     container_name: traefik
     image: traefik:v3.6.4
     privileged: true
-    network: web
+    networks:
+      - web
     ports:
       - "80:80"
       - "8080:8080"
@@ -120,7 +120,8 @@ podman_quadlets:
   - name: tosh_io
     container_name: tosh_io
     image: homelab.local:5000/tosh.io:latest
-    network: web
+    networks:
+      - web
     expose:
       - "9292"
     volumes:
@@ -135,7 +136,8 @@ podman_quadlets:
   - name: price_history
     container_name: price_history
     image: homelab.local:5000/price_history:latest
-    network: web
+    networks:
+      - web
     expose:
       - "3000"
     volumes:
@@ -153,7 +155,8 @@ podman_quadlets:
   - name: ynab_view
     container_name: ynab_view
     image: homelab.local:5000/ynab-view:latest
-    network: web
+    networks:
+      - web
     expose:
       - "4567"
     environment_files:
@@ -169,7 +172,8 @@ podman_quadlets:
   - name: bingo
     container_name: bingo
     image: homelab.local:5000/bingo:latest
-    network: web
+    networks:
+      - web
     expose:
       - "3001"
     volumes:
@@ -187,7 +191,8 @@ podman_quadlets:
   - name: household-chores
     container_name: household-chores
     image: homelab.local:5000/household-chores:latest
-    network: web
+    networks:
+      - web
     expose:
       - "4567"
     volumes:

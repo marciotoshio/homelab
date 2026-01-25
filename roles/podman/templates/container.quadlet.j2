@@ -38,8 +38,10 @@ EnvironmentFile={{ env_file }}
 Label={{ label }}
 {% endfor %}
 {% endif %}
-{% if item.network is defined %}
-Network={{ item.network }}
+{% if item.networks is defined %}
+{% for network in item.networks %}
+Network={{ network }}
+{% endfor %}
 {% endif %}
 {% if item.userns is defined %}
 UserNS={{ item.userns }}
