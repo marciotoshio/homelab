@@ -1,3 +1,7 @@
+podman_networks:
+  - "web"
+  - "internal"
+
 podman_data_dirs:
   - "{{ homelab_data_dir }}/pihole"
   - "{{ homelab_data_dir }}/jellyfin/config"
@@ -30,6 +34,7 @@ podman_quadlets:
     dns:
       - "8.8.8.8"
       - "8.8.4.4"
+    network: internal
 
   - name: cloudflared
     container_name: cloudflared
@@ -75,6 +80,7 @@ podman_quadlets:
       - PUID={{ local_user_id }}
       - PGID={{ local_user_id }}
       - HOMEPAGE_ALLOWED_HOSTS=homelab.local:8083
+    network: internal
 
   - name: registry
     container_name: registry
