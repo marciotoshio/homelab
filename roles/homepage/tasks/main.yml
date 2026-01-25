@@ -2,9 +2,6 @@
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ homelab_data_dir }}/homepage/config/{{ item }}"
-    owner: "{{ local_user }}"
-    group: "{{ local_user }}"
-    mode: '0644'
   loop:
     - "services.yaml"
     - "docker.yaml"

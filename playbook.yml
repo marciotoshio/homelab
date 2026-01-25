@@ -2,8 +2,15 @@
   vars_files:
     - ansible-vars/main.yml
   roles:
-    - system
-    - podman
-    - traefik
-    - homepage
-    - nfs
+    - role: system
+      tags: system
+    - role: podman
+      tags: podman
+    - role: traefik
+      tags: traefik
+    - role: homepage
+      tags: homepage
+    - role: webapps
+      tags: webapps
+    - role: nfs
+      tags: nfs

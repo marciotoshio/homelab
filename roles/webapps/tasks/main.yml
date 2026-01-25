@@ -1,0 +1,21 @@
+---
+- name: Ensure webapps environment directory exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0700'
+  loop:
+    - "{{ homelab_data_dir }}/environments"
+
+- name: Deploy webapps environment file with Bitwarden secrets
+  ansible.builtin.template:
+    src: templates/{{ item }}.env.j2
+    dest: "{{ homelab_data_dir }}/environments/{{ item }}.env"
+    mode: '0600'
+  no_log: true
+  loop:
+    - bingo
+    - household-chores
+    - pihole
+    - price_history
+    - ynab_view

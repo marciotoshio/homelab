@@ -76,6 +76,7 @@
     group: "{{ local_user }}"
     mode: '0644'
   loop: "{{ podman_quadlets | default([]) }}"
+  no_log: true
   register: quadlet_files_result
 
 - name: Reload systemd user daemon
@@ -91,3 +92,4 @@
     enabled: true
     scope: user
   loop: "{{ podman_quadlets | default([]) }}"
+  no_log: true
