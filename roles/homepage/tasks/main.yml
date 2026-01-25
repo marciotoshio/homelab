@@ -11,4 +11,5 @@
   loop:
     - "docker.yaml"
     - "settings.yaml"
+    - "bookmarks.yaml"
   become: true

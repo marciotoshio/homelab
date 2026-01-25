@@ -2,14 +2,9 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/services/
 
-- Homepage:
-    - Homepage:
-        href: http://homelab.local:8083/
-        description: Homepage
-        container: homepage
-
 - Network:
     - Pi-hole:
+        icon: pi-hole
         href: http://homelab.local:8082/admin
         description: DNS Ad-blocker
         container: pihole
@@ -20,6 +15,7 @@
           key: {{ lookup('community.general.bitwarden_secrets_manager', 'db69badc-2212-4e04-ba31-b3dd0117900b').value }}
 
     - Cloudflared:
+        icon: cloudflare
         description: Cloudflared
         container: cloudflared
         widget:
@@ -29,6 +25,7 @@
           key: {{ lookup('community.general.bitwarden_secrets_manager', 'd57a2a41-adec-40d0-8682-b3dd01425bb7').value }}
 
     - Traefik:
+        icon: traefik-proxy
         href: http://homelab.local:8080
         description: Reverse Proxy
         container: traefik
@@ -37,48 +34,57 @@
           url: http://host.containers.internal:8080
 
     - Dozzle:
+        icon: dozzle
         href: http://homelab.local:8081
         description: Container Logs
         container: dozzle
 
     - Registry:
+        icon: distribution
         description: Container Registry
         container: registry
 
 - Media:
     - Jellyfin:
+        icon: jellyfin
         href: http://homelab.local:8096/
         description: Media Server
         container: jellyfin
 
 - Home Assistant:
     - Home Assistant:
+        icon: home-assistant
         href: http://homelab.local:8123/
         description: Home Automation
         container: homeassistant
 
 - WebApps:
     - Tosh.io:
+        icon: ruby
         href: https://tosh.io
         description: Tosh.io
         container: tosh_io
 
     - Price History:
+        icon: ruby-on-rails
         href: https://price-history.tosh.io
         description: Price History
         container: price_history
 
     - YNAB View:
+        icon: ynab
         href: https://ynab-view.tosh.io
         description: YNAB View
         container: ynab_view
 
     - Bingo:
+        icon: ruby-on-rails
         href: https://bingo.tosh.io
         description: Bingo
         container: bingo
 
     - Household Chores:
+        icon: ruby
         href: https://household-chores.tosh.io
         description: Household Chores
         container: household-chores
