@@ -13,3 +13,9 @@
     - "settings.yaml"
     - "bookmarks.yaml"
   become: true
+
+- name: Homepage background image
+  ansible.builtin.copy:
+    src: "homepage_bg.png"
+    dest: "{{ homelab_data_dir }}/homepage/images/homepage_bg.png"
+  become: true

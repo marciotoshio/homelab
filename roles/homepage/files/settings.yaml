@@ -4,6 +4,11 @@
 
 showStats: true
 
+backgroundOpacity: 0.6
+cardBlur: md # or sm, lg
+headerStyle: underlined # or boxed, boxedWidgets, clean
+background: /images/homepage_bg.png
+
 providers:
   openweathermap: openweathermapapikey
   weatherapi: weatherapiapikey

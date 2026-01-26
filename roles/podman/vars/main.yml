@@ -10,6 +10,7 @@ podman_data_dirs:
   - "{{ homelab_data_dir }}/shows"
   - "{{ homelab_data_dir }}/homeassistant/config"
   - "{{ homelab_data_dir }}/homepage/config"
+  - "{{ homelab_data_dir }}/homepage/images"
   - "{{ homelab_data_dir }}/registry/data"
   - "{{ homelab_data_dir }}/traefik"
   - "{{ homelab_data_dir }}/dbs/price_history"
@@ -75,6 +76,7 @@ podman_quadlets:
       - "8083:3000"
     volumes:
       - "{{ homelab_data_dir}}/homepage/config:/app/config:z"
+      - "{{ homelab_data_dir}}/homepage/images:/app/public/images:z"
       - "/run/user/1000/podman/podman.sock:/var/run/docker.sock:z"
     environment:
       - PUID={{ local_user_id }}
