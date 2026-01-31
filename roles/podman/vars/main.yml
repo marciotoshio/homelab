@@ -94,7 +94,7 @@ podman_quadlets:
 
   - name: traefik
     container_name: traefik
-    image: traefik:v3.6.4
+    image: traefik:v3.6.7
     privileged: true
     networks:
       - web
